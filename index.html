@@ -1,24 +1,29 @@
 <div class="card">
-  <h2>Pong: Single- & Multiplayer</h2>
+  <h2>Pong: Arena</h2>
   <div id="pong-container">
     <div id="setup-menu">
-      <button class="btn" onclick="startSinglePlayer()">Singleplayer (vs KI)</button>
-      <button class="btn" onclick="showMultiplayerMenu()">Multiplayer (P2P)</button>
-      <div id="difficulty-select" style="display:none; margin-top:10px;">
-        <button class="btn" style="background:#28a745" onclick="setDifficulty(0.05)">Leicht</button>
+      <button class="btn" onclick="startSinglePlayer()">1 Spieler (vs. KI)</button>
+      <hr style="opacity:0.1; margin:20px 0;">
+      <button class="btn" onclick="initHost()">Spiel Hosten (Multiplayer)</button>
+      <button class="btn" onclick="showJoinMenu()">Spiel Beitreten (Multiplayer)</button>
+      
+      <div id="difficulty-select" style="display:none; margin-top:15px;">
+        <button class="btn" style="background:#28a745" onclick="setDifficulty(0.06)">Leicht</button>
         <button class="btn" style="background:#ffc107" onclick="setDifficulty(0.12)">Mittel</button>
         <button class="btn" style="background:#dc3545" onclick="setDifficulty(1)">Unschlagbar</button>
       </div>
-    </div>
 
-    <div id="multiplayer-ui" style="display:none;">
-      <div id="id-display">Deine ID: <strong id="my-id">Lade...</strong></div>
-      <div class="controls">
-        <input type="text" id="join-id" placeholder="Partner ID">
-        <button class="btn" onclick="connectToPeer()">Verbinden</button>
+      <div id="join-menu" style="display:none; margin-top:15px;">
+        <input type="text" id="join-id" placeholder="Partner ID eingeben">
+        <button class="btn" onclick="connectToPeer()">Jetzt Verbinden</button>
       </div>
     </div>
-    <div id="status">Wähle einen Modus</div>
+
+    <div id="status-area" style="margin: 15px 0;">
+      <div id="id-display" style="display:none;">Deine ID: <strong id="my-id">...</strong></div>
+      <div id="status">Wähle einen Modus</div>
+    </div>
+
     <canvas id="pong" width="600" height="400"></canvas>
   </div>
 </div>
