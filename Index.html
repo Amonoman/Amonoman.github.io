@@ -1,11 +1,67 @@
-<!DOCTYPE html>
-<html>
+<<!DOCTYPE html>
+<html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Meine Webseite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amonoman</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 700px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Hello World!</h1>
-  <p>Moin dies ist ein test.</p>
+  <header>
+    <h1>Willkommen bei Amonoman</h1>
+    <p>Eine moderne, mobilfreundliche GitHub‑Pages‑Seite.</p>
+  </header>
+
+  <div class="card">
+    <h2>Über mich</h2>
+    <p>Hier kannst du Inhalte, Projekte oder Links einfügen. Das Layout passt sich automatisch an jedes Gerät an.</p>
+  </div>
+
+  <footer>
+    © 2026 Amonoman
+  </footer>
 </body>
 </html>
