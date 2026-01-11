@@ -5,31 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amonoman | Portfolio</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Material 3 Light Theme */
-            --m3-bg: #fef7ff;
-            --m3-surface: #f3edf7;
-            --m3-primary: #6750a4;
-            --m3-secondary-container: #e8def8;
-            --m3-on-secondary-container: #1d192b;
-            --m3-on-primary: #ffffff;
-            --m3-on-surface: #1d1b20;
-            --m3-on-surface-variant: #49454f;
+            /* AMOLED Dark Theme Default */
+            --m3-bg: #000000;
+            --m3-surface: #121212;
+            --m3-primary: #d0bcff;
+            --m3-secondary-container: #332d41;
+            --m3-on-secondary-container: #e8def8;
+            --m3-on-primary: #381e72;
+            --m3-on-surface: #e6e1e5;
+            --m3-on-surface-variant: #cac4d0;
         }
 
-        @media (prefers-color-scheme: dark) {
+        /* Light Mode Support */
+        @media (prefers-color-scheme: light) {
             :root {
-                /* Material 3 Dark Theme */
-                --m3-bg: #141218;
-                --m3-surface: #1d1b20;
-                --m3-primary: #d0bcff;
-                --m3-secondary-container: #4a4458;
-                --m3-on-secondary-container: #e8def8;
-                --m3-on-primary: #381e72;
-                --m3-on-surface: #e6e1e5;
-                --m3-on-surface-variant: #cac4d0;
+                --m3-bg: #ffffff;
+                --m3-surface: #f3edf7;
+                --m3-primary: #6750a4;
+                --m3-secondary-container: #e8def8;
+                --m3-on-secondary-container: #1d192b;
+                --m3-on-primary: #ffffff;
+                --m3-on-surface: #1d1b20;
+                --m3-on-surface-variant: #49454f;
             }
         }
 
@@ -47,20 +47,21 @@
         .container {
             width: 100%;
             max-width: 800px;
-            padding: 40px 20px;
+            padding: 60px 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 60px;
         }
 
         h1 {
-            font-size: 3.5rem;
-            font-weight: 300;
+            font-size: 4rem;
+            font-weight: 900; /* Extra Bold */
             margin: 0;
             color: var(--m3-primary);
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            text-transform: uppercase;
         }
 
         .card {
@@ -68,29 +69,17 @@
             border-radius: 28px;
             padding: 24px;
             margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         h2 {
-            font-size: 1.2rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 700;
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--m3-on-surface-variant);
-        }
-
-        /* Widget Styling */
-        .widget-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .widget-img {
-            width: 100%;
-            border-radius: 16px;
-            display: block;
+            letter-spacing: 1.5px;
+            color: var(--m3-primary);
         }
 
         /* Social Links Grid */
@@ -104,30 +93,41 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 16px 24px;
+            padding: 18px 24px;
             background-color: var(--m3-secondary-container);
             color: var(--m3-on-secondary-container);
             text-decoration: none;
-            border-radius: 16px;
-            font-weight: 500;
-            transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.2s ease;
         }
 
         .m3-btn:hover {
             background-color: var(--m3-primary);
             color: var(--m3-on-primary);
-            transform: translateY(-2px);
+            transform: scale(1.02);
         }
 
-        .material-symbols-rounded {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        /* Widget Styling */
+        .widget-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .widget-img {
+            width: 100%;
+            border-radius: 12px;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
         }
 
         footer {
             text-align: center;
-            margin-top: 60px;
-            color: var(--m3-on-surface-variant);
-            font-size: 0.85rem;
+            margin-top: 80px;
+            opacity: 0.5;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -136,16 +136,7 @@
 <div class="container">
     <header>
         <h1>Amonoman</h1>
-        <p style="font-size: 1.2rem; opacity: 0.8;">Fullstack Creator & Developer</p>
     </header>
-
-    <div class="card">
-        <h2>GitHub Activity</h2>
-        <div class="widget-container">
-            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/output/github-contribution-snake.svg" alt="GitHub Snake" class="widget-img">
-            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/refs/heads/main/metrics.svg" alt="GitHub Metrics" class="widget-img">
-        </div>
-    </div>
 
     <div class="card">
         <h2>Connect</h2>
@@ -168,8 +159,16 @@
         </div>
     </div>
 
+    <div class="card">
+        <h2>GitHub Activity</h2>
+        <div class="widget-container">
+            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/output/github-contribution-snake.svg" alt="GitHub Snake" class="widget-img">
+            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/refs/heads/main/metrics.svg" alt="GitHub Metrics" class="widget-img">
+        </div>
+    </div>
+
     <footer>
-        &copy; 2026 Amonoman | Powered by Material Design 3
+        AMONOMAN // 2026
     </footer>
 </div>
 
