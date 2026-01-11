@@ -1,29 +1,176 @@
-<div class="card">
-  <h2>Pong: Arena</h2>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Amonoman | Professional P2P Pong</title>
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <style>
+    :root {
+      --bg: #050505;
+      --card: #111;
+      --accent: #4a6cf7;
+      --text: #eee;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .game-wrapper {
+      position: relative;
+      width: 95vw;
+      max-width: 800px;
+      background: var(--card);
+      padding: 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .pong-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    #score-board {
+      font-family: 'Courier New', monospace;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 5px;
+      text-shadow: 0 0 10px var(--accent);
+    }
+
+    #pong-container {
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 3 / 2;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* UI Overlay */
+    #menu-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .menu-btn {
+      width: 250px;
+      padding: 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: #222;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .menu-btn.primary { background: var(--accent); box-shadow: 0 0 15px rgba(74, 108, 247, 0.4); }
+    .menu-btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
+
+    .sub-menu { display: none; margin-top: 15px; width: 100%; }
+    
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #000;
+      color: white;
+      width: 200px;
+      margin-bottom: 10px;
+    }
+
+    .id-pill {
+      background: rgba(74, 108, 247, 0.1);
+      border: 1px dashed var(--accent);
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #status { font-size: 0.9rem; margin-top: 10px; opacity: 0.7; }
+    
+    .neon-text { color: var(--accent); text-shadow: 0 0 8px var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="game-wrapper">
+  <div class="pong-header">
+    <h2 style="margin:0; font-size: 1.2rem;">PONG <span class="neon-text">ARENA</span></h2>
+    <div id="score-board"><span id="score1">0</span> : <span id="score2">0</span></div>
+  </div>
+
   <div id="pong-container">
-    <div id="setup-menu">
-      <button class="btn" onclick="startSinglePlayer()">1 Spieler (vs. KI)</button>
-      <hr style="opacity:0.1; margin:20px 0;">
-      <button class="btn" onclick="initHost()">Spiel Hosten (Multiplayer)</button>
-      <button class="btn" onclick="showJoinMenu()">Spiel Beitreten (Multiplayer)</button>
-      
-      <div id="difficulty-select" style="display:none; margin-top:15px;">
-        <button class="btn" style="background:#28a745" onclick="setDifficulty(0.06)">Leicht</button>
-        <button class="btn" style="background:#ffc107" onclick="setDifficulty(0.12)">Mittel</button>
-        <button class="btn" style="background:#dc3545" onclick="setDifficulty(1)">Unschlagbar</button>
+    <div id="menu-overlay">
+      <div id="setup-menu">
+        <button class="menu-btn primary" onclick="startSinglePlayer()">1 Spieler (VS KI)</button>
+        <button class="menu-btn" onclick="initHost()">Hosten (Multiplayer)</button>
+        <button class="menu-btn" onclick="showJoinMenu()">Beitreten (Multiplayer)</button>
       </div>
 
-      <div id="join-menu" style="display:none; margin-top:15px;">
+      <div id="difficulty-select" class="sub-menu">
+        <p>KI-Stärke wählen:</p>
+        <button class="menu-btn" style="background:#28a745" onclick="setDifficulty(0.06)">Leicht</button>
+        <button class="menu-btn" style="background:#ffc107" onclick="setDifficulty(0.12)">Mittel</button>
+        <button class="menu-btn" style="background:#dc3545" onclick="setDifficulty(1)">Unschlagbar</button>
+      </div>
+
+      <div id="join-menu" class="sub-menu">
         <input type="text" id="join-id" placeholder="Partner ID eingeben">
-        <button class="btn" onclick="connectToPeer()">Jetzt Verbinden</button>
+        <button class="menu-btn primary" onclick="connectToPeer()">Verbinden</button>
       </div>
-    </div>
 
-    <div id="status-area" style="margin: 15px 0;">
-      <div id="id-display" style="display:none;">Deine ID: <strong id="my-id">...</strong></div>
-      <div id="status">Wähle einen Modus</div>
+      <div id="host-display" class="sub-menu">
+        <p>Deine ID (Klicken zum Kopieren):</p>
+        <div class="id-pill" onclick="copyId()"><strong id="my-id">...</strong></div>
+        <p id="status">Warte auf Gegner...</p>
+      </div>
     </div>
 
     <canvas id="pong" width="600" height="400"></canvas>
   </div>
 </div>
+
+<script src="script.js"></script>
+<script>
+  function copyId() {
+    const idText = document.getElementById('my-id').innerText;
+    navigator.clipboard.writeText(idText);
+    document.getElementById('status').innerText = "ID in Zwischenablage kopiert!";
+  }
+</script>
+
+</body>
+</html>
