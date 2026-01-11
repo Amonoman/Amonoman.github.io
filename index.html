@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Amonoman | Pong</title>
+  <title>Amonoman | Ultimate Pong</title>
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <style>
     :root {
       --bg: #0a0a0c;
-      --panel: rgba(20, 20, 25, 0.9);
-      --accent: #00f2ff;
-      --accent-glow: rgba(0, 242, 255, 0.4);
+      --card: #16161a;
+      --accent: #4a6cf7;
       --text: #ffffff;
     }
 
@@ -26,10 +25,15 @@
       overflow: hidden;
     }
 
-    .container {
+    .game-card {
       width: 90vw;
-      max-width: 700px;
-      text-align: center;
+      max-width: 750px;
+      background: var(--card);
+      padding: 25px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      position: relative;
     }
 
     .header {
@@ -37,121 +41,124 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
-      padding: 0 10px;
     }
 
-    #score {
+    #score-board {
       font-size: 2.5rem;
-      font-weight: 900;
-      font-variant-numeric: tabular-nums;
-      text-shadow: 0 0 20px var(--accent-glow);
-    }
-
-    .neon-title {
-      font-size: 0.8rem;
+      font-weight: 800;
       letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--accent);
+      text-shadow: 0 0 15px var(--accent);
     }
 
-    #pong-box {
+    #pong-area {
       position: relative;
       background: #000;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+      border-radius: 16px;
       overflow: hidden;
       aspect-ratio: 1.5 / 1;
+      border: 2px solid #222;
     }
 
     canvas { width: 100%; height: 100%; display: block; }
 
-    /* UI Overlay */
+    /* Overlay System */
     #overlay {
       position: absolute;
       inset: 0;
-      background: var(--panel);
-      backdrop-filter: blur(15px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 50; /* Über dem Canvas */
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 100;
-      transition: opacity 0.4s ease;
     }
 
-    .menu-section { display: flex; flex-direction: column; gap: 12px; width: 280px; }
-
-    .btn {
-      padding: 16px;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent-glow); }
-    .btn.primary { border-color: var(--accent); color: var(--accent); }
-
-    input {
-      padding: 14px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      color: white;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .id-display {
-      font-family: monospace;
-      color: var(--accent);
-      background: rgba(0, 242, 255, 0.1);
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      font-size: 0.9rem;
+    .menu-layer {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 300px;
+      padding: 20px;
     }
 
     .hidden { display: none !important; }
+
+    /* Buttons */
+    .btn {
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #2a2a30;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      z-index: 60; /* Sicherstellen, dass Buttons klickbar sind */
+    }
+
+    .btn.primary { background: var(--accent); box-shadow: 0 8px 20px rgba(74, 108, 247, 0.3); }
+    .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
+    .btn:active { transform: translateY(0); }
+
+    input {
+      padding: 14px;
+      background: #000;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+    }
+
+    .id-pill {
+      background: rgba(74, 108, 247, 0.15);
+      border: 1px dashed var(--accent);
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: monospace;
+      color: var(--accent);
+      margin-top: 10px;
+    }
+
+    .copy-hint { font-size: 0.7rem; opacity: 0.6; display: block; margin-top: 4px; }
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="game-card">
   <div class="header">
-    <div class="neon-title">Amonoman // Arena</div>
-    <div id="score">0 : 0</div>
+    <h2 style="margin:0; font-size: 1rem; letter-spacing: 2px; color: var(--accent);">AMONOMAN // ARENA</h2>
+    <div id="score-board">0 : 0</div>
   </div>
 
-  <div id="pong-box">
+  <div id="pong-area">
     <div id="overlay">
-      <div id="main-menu" class="menu-section">
-        <button class="btn primary" onclick="uiAction('show-ki')">Singleplayer</button>
-        <button class="btn" onclick="uiAction('show-host')">Host Game</button>
-        <button class="btn" onclick="uiAction('show-join')">Join Game</button>
+      <div id="menu-main" class="menu-layer">
+        <button class="btn primary" onclick="showSubMenu('ki')">Singleplayer</button>
+        <button class="btn" onclick="showSubMenu('host')">Host Game</button>
+        <button class="btn" onclick="showSubMenu('join')">Join Game</button>
       </div>
 
-      <div id="ki-menu" class="menu-section hidden">
-        <button class="btn" onclick="setDifficulty(0.06)">Leicht</button>
-        <button class="btn" onclick="setDifficulty(0.12)">Mittel</button>
-        <button class="btn" onclick="setDifficulty(1)">Unschlagbar</button>
+      <div id="menu-ki" class="menu-layer hidden">
+        <button class="btn" onclick="startGameKI(0.06)">Leicht</button>
+        <button class="btn" onclick="startGameKI(0.12)">Mittel</button>
+        <button class="btn" onclick="startGameKI(1)">Unschlagbar</button>
       </div>
 
-      <div id="join-menu" class="menu-section hidden">
-        <input type="text" id="target-id" placeholder="PARTNER ID">
-        <button class="btn primary" onclick="connectToPeer()">Connect</button>
+      <div id="menu-join" class="menu-layer hidden">
+        <input type="text" id="join-id-input" placeholder="PARTNER ID HIER">
+        <button class="btn primary" onclick="connectToHost()">Verbinden</button>
       </div>
 
-      <div id="host-menu" class="menu-section hidden">
-        <p>Warte auf Gegner...</p>
-        <div class="id-display" id="my-id-display" onclick="copyId()">Generiere ID...</div>
+      <div id="menu-host" class="menu-layer hidden">
+        <p style="margin:0">Deine ID zum Teilen:</p>
+        <div class="id-pill" onclick="copyMyId()">
+          <span id="display-my-id">Wird geladen...</span>
+          <span class="copy-hint">Klicken zum Kopieren</span>
+        </div>
+        <p id="host-status" style="font-size: 0.8rem; opacity:0.5">Warte auf Partner...</p>
       </div>
     </div>
 
