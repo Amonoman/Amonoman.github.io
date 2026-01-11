@@ -1,171 +1,177 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Amonoman | Ultimate Pong</title>
-  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-  <style>
-    :root {
-      --bg: #0a0a0c;
-      --card: #16161a;
-      --accent: #4a6cf7;
-      --text: #ffffff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amonoman | Portfolio</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Material 3 Light Theme */
+            --m3-bg: #fef7ff;
+            --m3-surface: #f3edf7;
+            --m3-primary: #6750a4;
+            --m3-secondary-container: #e8def8;
+            --m3-on-secondary-container: #1d192b;
+            --m3-on-primary: #ffffff;
+            --m3-on-surface: #1d1b20;
+            --m3-on-surface-variant: #49454f;
+        }
 
-    body {
-      margin: 0;
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* Material 3 Dark Theme */
+                --m3-bg: #141218;
+                --m3-surface: #1d1b20;
+                --m3-primary: #d0bcff;
+                --m3-secondary-container: #4a4458;
+                --m3-on-secondary-container: #e8def8;
+                --m3-on-primary: #381e72;
+                --m3-on-surface: #e6e1e5;
+                --m3-on-surface-variant: #cac4d0;
+            }
+        }
 
-    .game-card {
-      width: 90vw;
-      max-width: 750px;
-      background: var(--card);
-      padding: 25px;
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-      position: relative;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--m3-bg);
+            color: var(--m3-on-surface);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 40px 20px;
+        }
 
-    #score-board {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: 4px;
-      text-shadow: 0 0 15px var(--accent);
-    }
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
 
-    #pong-area {
-      position: relative;
-      background: #000;
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 1.5 / 1;
-      border: 2px solid #222;
-    }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin: 0;
+            color: var(--m3-primary);
+            letter-spacing: -1px;
+        }
 
-    canvas { width: 100%; height: 100%; display: block; }
+        .card {
+            background-color: var(--m3-surface);
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
 
-    /* Overlay System */
-    #overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(12px);
-      z-index: 50; /* Über dem Canvas */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--m3-on-surface-variant);
+        }
 
-    .menu-layer {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      width: 300px;
-      padding: 20px;
-    }
+        /* Widget Styling */
+        .widget-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-    .hidden { display: none !important; }
+        .widget-img {
+            width: 100%;
+            border-radius: 16px;
+            display: block;
+        }
 
-    /* Buttons */
-    .btn {
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
-      background: #2a2a30;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      z-index: 60; /* Sicherstellen, dass Buttons klickbar sind */
-    }
+        /* Social Links Grid */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
 
-    .btn.primary { background: var(--accent); box-shadow: 0 8px 20px rgba(74, 108, 247, 0.3); }
-    .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
-    .btn:active { transform: translateY(0); }
+        .m3-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background-color: var(--m3-secondary-container);
+            color: var(--m3-on-secondary-container);
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+        }
 
-    input {
-      padding: 14px;
-      background: #000;
-      border: 1px solid #333;
-      border-radius: 10px;
-      color: white;
-      text-align: center;
-    }
+        .m3-btn:hover {
+            background-color: var(--m3-primary);
+            color: var(--m3-on-primary);
+            transform: translateY(-2px);
+        }
 
-    .id-pill {
-      background: rgba(74, 108, 247, 0.15);
-      border: 1px dashed var(--accent);
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: monospace;
-      color: var(--accent);
-      margin-top: 10px;
-    }
+        .material-symbols-rounded {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
 
-    .copy-hint { font-size: 0.7rem; opacity: 0.6; display: block; margin-top: 4px; }
-  </style>
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: var(--m3-on-surface-variant);
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
 
-<div class="game-card">
-  <div class="header">
-    <h2 style="margin:0; font-size: 1rem; letter-spacing: 2px; color: var(--accent);">AMONOMAN // ARENA</h2>
-    <div id="score-board">0 : 0</div>
-  </div>
+<div class="container">
+    <header>
+        <h1>Amonoman</h1>
+        <p style="font-size: 1.2rem; opacity: 0.8;">Fullstack Creator & Developer</p>
+    </header>
 
-  <div id="pong-area">
-    <div id="overlay">
-      <div id="menu-main" class="menu-layer">
-        <button class="btn primary" onclick="showSubMenu('ki')">Singleplayer</button>
-        <button class="btn" onclick="showSubMenu('host')">Host Game</button>
-        <button class="btn" onclick="showSubMenu('join')">Join Game</button>
-      </div>
-
-      <div id="menu-ki" class="menu-layer hidden">
-        <button class="btn" onclick="startGameKI(0.06)">Leicht</button>
-        <button class="btn" onclick="startGameKI(0.12)">Mittel</button>
-        <button class="btn" onclick="startGameKI(1)">Unschlagbar</button>
-      </div>
-
-      <div id="menu-join" class="menu-layer hidden">
-        <input type="text" id="join-id-input" placeholder="PARTNER ID HIER">
-        <button class="btn primary" onclick="connectToHost()">Verbinden</button>
-      </div>
-
-      <div id="menu-host" class="menu-layer hidden">
-        <p style="margin:0">Deine ID zum Teilen:</p>
-        <div class="id-pill" onclick="copyMyId()">
-          <span id="display-my-id">Wird geladen...</span>
-          <span class="copy-hint">Klicken zum Kopieren</span>
+    <div class="card">
+        <h2>GitHub Activity</h2>
+        <div class="widget-container">
+            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/output/github-contribution-snake.svg" alt="GitHub Snake" class="widget-img">
+            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/refs/heads/main/metrics.svg" alt="GitHub Metrics" class="widget-img">
         </div>
-        <p id="host-status" style="font-size: 0.8rem; opacity:0.5">Warte auf Partner...</p>
-      </div>
     </div>
 
-    <canvas id="pong" width="600" height="400"></canvas>
-  </div>
+    <div class="card">
+        <h2>Connect</h2>
+        <div class="links-grid">
+            <a href="https://github.com/Amonoman" class="m3-btn" target="_blank">
+                <span class="material-symbols-rounded">code</span> GitHub
+            </a>
+            <a href="mailto:m28162214@gmail.com" class="m3-btn">
+                <span class="material-symbols-rounded">mail</span> E-Mail
+            </a>
+            <a href="https://youtube.com/@amonoman-jojo" class="m3-btn" target="_blank">
+                <span class="material-symbols-rounded">play_circle</span> YouTube
+            </a>
+            <a href="http://t.me/AmonomanX" class="m3-btn" target="_blank">
+                <span class="material-symbols-rounded">send</span> Telegram
+            </a>
+            <a href="https://discord.com/users/1061627516596535396" class="m3-btn" target="_blank">
+                <span class="material-symbols-rounded">forum</span> Discord
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Amonoman | Powered by Material Design 3
+    </footer>
 </div>
 
-<script src="script.js"></script>
 </body>
 </html>
