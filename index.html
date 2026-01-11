@@ -1,130 +1,24 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Amonoman</title>
+<div class="card">
+  <h2>Pong: Single- & Multiplayer</h2>
+  <div id="pong-container">
+    <div id="setup-menu">
+      <button class="btn" onclick="startSinglePlayer()">Singleplayer (vs KI)</button>
+      <button class="btn" onclick="showMultiplayerMenu()">Multiplayer (P2P)</button>
+      <div id="difficulty-select" style="display:none; margin-top:10px;">
+        <button class="btn" style="background:#28a745" onclick="setDifficulty(0.05)">Leicht</button>
+        <button class="btn" style="background:#ffc107" onclick="setDifficulty(0.12)">Mittel</button>
+        <button class="btn" style="background:#dc3545" onclick="setDifficulty(1)">Unschlagbar</button>
+      </div>
+    </div>
 
-  <style>
-    :root {
-      --bg: #f5f5f5;
-      --card: #ffffff;
-      --text: #222;
-      --accent: #4a6cf7;
-      --accent-hover: #3554d4;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0f0f0f;
-        --card: #1a1a1a;
-        --text: #eaeaea;
-        --accent: #6d8bff;
-        --accent-hover: #5470ff;
-      }
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 20px;
-      line-height: 1.6;
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      font-size: clamp(2.2rem, 6vw, 3.5rem);
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    p {
-      font-size: clamp(1rem, 3.5vw, 1.2rem);
-      max-width: 650px;
-      margin: 0 auto;
-      opacity: 0.9;
-    }
-
-    .card {
-      background: var(--card);
-      padding: 25px;
-      margin: 30px auto;
-      max-width: 750px;
-      border-radius: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    }
-
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Amonoman - P2P Pong</title>
-  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-  <style>
-    :root {
-      --bg: #f5f5f5; --card: #ffffff; --text: #222;
-      --accent: #4a6cf7; --accent-hover: #3554d4;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0f0f0f; --card: #1a1a1a; --text: #eaeaea;
-        --accent: #6d8bff; --accent-hover: #5470ff;
-      }
-    }
-    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; line-height: 1.6; }
-    header { text-align: center; padding: 40px 20px; }
-    h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); margin-bottom: 10px; font-weight: 700; }
-    .card { background: var(--card); padding: 25px; margin: 30px auto; max-width: 750px; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
-    
-    /* Pong Spezifisches Design */
-    #pong-container { text-align: center; margin-top: 20px; }
-    canvas { background: #000; width: 100%; max-width: 600px; border-radius: 8px; border: 2px solid var(--accent); display: block; margin: 0 auto; }
-    .controls { margin: 15px 0; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-    input { padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: var(--card); color: var(--text); }
-    .btn { display: inline-block; padding: 12px 20px; background: var(--accent); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; cursor: pointer; border: none; }
-    .btn:hover { background: var(--accent-hover); }
-    #status { font-weight: bold; color: var(--accent); margin-top: 10px; }
-    footer { text-align: center; margin-top: 40px; font-size: 0.9rem; opacity: 0.6; }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Amonoman</h1>
-    <p>Eine GitHub Pages Seite mit P2P Multiplayer.</p>
-  </header>
-
-  <div class="card">
-    <h2>Multiplayer Pong (P2P)</h2>
-    <p>Spiele gegen jemanden auf einem anderen Gerät. Schicke deinem Partner deine ID oder gib seine ID unten ein.</p>
-    
-    <div id="pong-container">
+    <div id="multiplayer-ui" style="display:none;">
       <div id="id-display">Deine ID: <strong id="my-id">Lade...</strong></div>
       <div class="controls">
         <input type="text" id="join-id" placeholder="Partner ID">
         <button class="btn" onclick="connectToPeer()">Verbinden</button>
       </div>
-      <div id="status">Warte auf Verbindung...</div>
-      <canvas id="pong" width="600" height="400"></canvas>
     </div>
+    <div id="status">Wähle einen Modus</div>
+    <canvas id="pong" width="600" height="400"></canvas>
   </div>
-
-  <footer>
-    © 2026 Amonoman | Powered by GitHub Pages
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+</div>
