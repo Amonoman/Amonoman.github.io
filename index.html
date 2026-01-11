@@ -3,159 +3,155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Amonoman | Professional P2P Pong</title>
+  <title>Amonoman | Pong</title>
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <style>
     :root {
-      --bg: #050505;
-      --card: #111;
-      --accent: #4a6cf7;
-      --text: #eee;
+      --bg: #0a0a0c;
+      --panel: rgba(20, 20, 25, 0.9);
+      --accent: #00f2ff;
+      --accent-glow: rgba(0, 242, 255, 0.4);
+      --text: #ffffff;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
       overflow: hidden;
     }
 
-    .game-wrapper {
-      position: relative;
-      width: 95vw;
-      max-width: 800px;
-      background: var(--card);
-      padding: 20px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    .container {
+      width: 90vw;
+      max-width: 700px;
+      text-align: center;
     }
 
-    .pong-header {
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      padding: 0 10px;
     }
 
-    #score-board {
-      font-family: 'Courier New', monospace;
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 5px;
-      text-shadow: 0 0 10px var(--accent);
+    #score {
+      font-size: 2.5rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 20px var(--accent-glow);
     }
 
-    #pong-container {
+    .neon-title {
+      font-size: 0.8rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    #pong-box {
       position: relative;
       background: #000;
-      border-radius: 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
       overflow: hidden;
-      aspect-ratio: 3 / 2;
+      aspect-ratio: 1.5 / 1;
     }
 
-    canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
+    canvas { width: 100%; height: 100%; display: block; }
 
     /* UI Overlay */
-    #menu-overlay {
+    #overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
+      background: var(--panel);
+      backdrop-filter: blur(15px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 10;
-      padding: 20px;
-      text-align: center;
+      z-index: 100;
+      transition: opacity 0.4s ease;
     }
 
-    .menu-btn {
-      width: 250px;
-      padding: 15px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 10px;
-      background: #222;
+    .menu-section { display: flex; flex-direction: column; gap: 12px; width: 280px; }
+
+    .btn {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
       color: white;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
-    .menu-btn.primary { background: var(--accent); box-shadow: 0 0 15px rgba(74, 108, 247, 0.4); }
-    .menu-btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
+    .btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent-glow); }
+    .btn.primary { border-color: var(--accent); color: var(--accent); }
 
-    .sub-menu { display: none; margin-top: 15px; width: 100%; }
-    
     input {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #333;
-      background: #000;
+      padding: 14px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
       color: white;
-      width: 200px;
+      text-align: center;
       margin-bottom: 10px;
     }
 
-    .id-pill {
-      background: rgba(74, 108, 247, 0.1);
-      border: 1px dashed var(--accent);
-      padding: 10px 20px;
-      border-radius: 30px;
+    .id-display {
+      font-family: monospace;
+      color: var(--accent);
+      background: rgba(0, 242, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
       cursor: pointer;
       margin-top: 10px;
+      font-size: 0.9rem;
     }
 
-    #status { font-size: 0.9rem; margin-top: 10px; opacity: 0.7; }
-    
-    .neon-text { color: var(--accent); text-shadow: 0 0 8px var(--accent); }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-<div class="game-wrapper">
-  <div class="pong-header">
-    <h2 style="margin:0; font-size: 1.2rem;">PONG <span class="neon-text">ARENA</span></h2>
-    <div id="score-board"><span id="score1">0</span> : <span id="score2">0</span></div>
+<div class="container">
+  <div class="header">
+    <div class="neon-title">Amonoman // Arena</div>
+    <div id="score">0 : 0</div>
   </div>
 
-  <div id="pong-container">
-    <div id="menu-overlay">
-      <div id="setup-menu">
-        <button class="menu-btn primary" onclick="startSinglePlayer()">1 Spieler (VS KI)</button>
-        <button class="menu-btn" onclick="initHost()">Hosten (Multiplayer)</button>
-        <button class="menu-btn" onclick="showJoinMenu()">Beitreten (Multiplayer)</button>
+  <div id="pong-box">
+    <div id="overlay">
+      <div id="main-menu" class="menu-section">
+        <button class="btn primary" onclick="uiAction('show-ki')">Singleplayer</button>
+        <button class="btn" onclick="uiAction('show-host')">Host Game</button>
+        <button class="btn" onclick="uiAction('show-join')">Join Game</button>
       </div>
 
-      <div id="difficulty-select" class="sub-menu">
-        <p>KI-Stärke wählen:</p>
-        <button class="menu-btn" style="background:#28a745" onclick="setDifficulty(0.06)">Leicht</button>
-        <button class="menu-btn" style="background:#ffc107" onclick="setDifficulty(0.12)">Mittel</button>
-        <button class="menu-btn" style="background:#dc3545" onclick="setDifficulty(1)">Unschlagbar</button>
+      <div id="ki-menu" class="menu-section hidden">
+        <button class="btn" onclick="setDifficulty(0.06)">Leicht</button>
+        <button class="btn" onclick="setDifficulty(0.12)">Mittel</button>
+        <button class="btn" onclick="setDifficulty(1)">Unschlagbar</button>
       </div>
 
-      <div id="join-menu" class="sub-menu">
-        <input type="text" id="join-id" placeholder="Partner ID eingeben">
-        <button class="menu-btn primary" onclick="connectToPeer()">Verbinden</button>
+      <div id="join-menu" class="menu-section hidden">
+        <input type="text" id="target-id" placeholder="PARTNER ID">
+        <button class="btn primary" onclick="connectToPeer()">Connect</button>
       </div>
 
-      <div id="host-display" class="sub-menu">
-        <p>Deine ID (Klicken zum Kopieren):</p>
-        <div class="id-pill" onclick="copyId()"><strong id="my-id">...</strong></div>
-        <p id="status">Warte auf Gegner...</p>
+      <div id="host-menu" class="menu-section hidden">
+        <p>Warte auf Gegner...</p>
+        <div class="id-display" id="my-id-display" onclick="copyId()">Generiere ID...</div>
       </div>
     </div>
 
@@ -164,13 +160,5 @@
 </div>
 
 <script src="script.js"></script>
-<script>
-  function copyId() {
-    const idText = document.getElementById('my-id').innerText;
-    navigator.clipboard.writeText(idText);
-    document.getElementById('status').innerText = "ID in Zwischenablage kopiert!";
-  }
-</script>
-
 </body>
 </html>
