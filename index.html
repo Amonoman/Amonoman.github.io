@@ -1,176 +1,221 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amonoman | Portfolio</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* AMOLED Dark Theme Default */
-            --m3-bg: #000000;
-            --m3-surface: #121212;
-            --m3-primary: #d0bcff;
-            --m3-secondary-container: #332d41;
-            --m3-on-secondary-container: #e8def8;
-            --m3-on-primary: #381e72;
-            --m3-on-surface: #e6e1e5;
-            --m3-on-surface-variant: #cac4d0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amonoman | Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
-        /* Light Mode Support */
-        @media (prefers-color-scheme: light) {
-            :root {
-                --m3-bg: #ffffff;
-                --m3-surface: #f3edf7;
-                --m3-primary: #6750a4;
-                --m3-secondary-container: #e8def8;
-                --m3-on-secondary-container: #1d192b;
-                --m3-on-primary: #ffffff;
-                --m3-on-surface: #1d1b20;
-                --m3-on-surface-variant: #49454f;
-            }
-        }
+<style>
+:root {
+    --m3-bg:#000;
+    --m3-surface:#121212;
+    --m3-surface-container:#1d1b20;
+    --m3-primary:#d0bcff;
+    --m3-on-primary:#381e72;
+    --m3-secondary-container:#332d41;
+    --m3-on-secondary-container:#e8def8;
+    --m3-on-surface:#e6e1e5;
+    --m3-shadow:rgba(0,0,0,0.4);
+    --anim-fast:180ms cubic-bezier(.2,0,0,1);
+    --anim-medium:260ms cubic-bezier(.2,0,0,1);
+    --anim-slow:420ms cubic-bezier(.2,0,0,1);
+}
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--m3-bg);
-            color: var(--m3-on-surface);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
+@media (prefers-color-scheme:light){
+    :root{
+        --m3-bg:#fff;
+        --m3-surface:#f3edf7;
+        --m3-surface-container:#f7f2fa;
+        --m3-primary:#6750a4;
+        --m3-on-primary:#fff;
+        --m3-secondary-container:#e8def8;
+        --m3-on-secondary-container:#1d192b;
+        --m3-on-surface:#1d1b20;
+        --m3-shadow:rgba(0,0,0,0.15);
+    }
+}
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            padding: 60px 20px;
-        }
+body{
+    margin:0;
+    padding:0;
+    font-family:'Roboto',sans-serif;
+    background:var(--m3-bg);
+    color:var(--m3-on-surface);
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+    animation:fadeIn var(--anim-slow) both;
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(12px);}
+    to{opacity:1;transform:translateY(0);}
+}
 
-        h1 {
-            font-size: 4rem;
-            font-weight: 900; /* Extra Bold */
-            margin: 0;
-            color: var(--m3-primary);
-            letter-spacing: -2px;
-            text-transform: uppercase;
-        }
+.container{
+    width:100%;
+    max-width:820px;
+    padding:64px 20px;
+    animation:scaleIn var(--anim-medium) both;
+}
 
-        .card {
-            background-color: var(--m3-surface);
-            border-radius: 28px;
-            padding: 24px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+@keyframes scaleIn{
+    from{opacity:0;transform:scale(.96);}
+    to{opacity:1;transform:scale(1);}
+}
 
-        h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--m3-primary);
-        }
+header{
+    text-align:center;
+    margin-bottom:64px;
+}
 
-        /* Social Links Grid */
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 12px;
-        }
+h1{
+    font-size:4rem;
+    font-weight:900;
+    margin:0;
+    color:var(--m3-primary);
+    letter-spacing:-2px;
+    text-transform:uppercase;
+    animation:slideDown var(--anim-medium) both;
+}
 
-        .m3-btn {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 24px;
-            background-color: var(--m3-secondary-container);
-            color: var(--m3-on-secondary-container);
-            text-decoration: none;
-            border-radius: 20px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
+@keyframes slideDown{
+    from{opacity:0;transform:translateY(-20px);}
+    to{opacity:1;transform:translateY(0);}
+}
 
-        .m3-btn:hover {
-            background-color: var(--m3-primary);
-            color: var(--m3-on-primary);
-            transform: scale(1.02);
-        }
+.card{
+    background:var(--m3-surface-container);
+    border-radius:28px;
+    padding:28px;
+    margin-bottom:28px;
+    box-shadow:0 4px 16px var(--m3-shadow);
+    animation:cardIn var(--anim-medium) both;
+}
 
-        /* Widget Styling */
-        .widget-container {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+@keyframes cardIn{
+    from{opacity:0;transform:translateY(20px) scale(.98);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+}
 
-        .widget-img {
-            width: 100%;
-            border-radius: 12px;
-            display: block;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
-        }
+h2{
+    font-size:1.1rem;
+    font-weight:700;
+    margin:0 0 24px 0;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:var(--m3-primary);
+}
 
-        footer {
-            text-align: center;
-            margin-top: 80px;
-            opacity: 0.5;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-    </style>
+.links-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:12px;
+}
+
+.m3-btn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:18px 24px;
+    background:var(--m3-secondary-container);
+    color:var(--m3-on-secondary-container);
+    text-decoration:none;
+    border-radius:20px;
+    font-weight:600;
+    position:relative;
+    overflow:hidden;
+    transition:transform var(--anim-fast),background var(--anim-fast);
+}
+
+.m3-btn::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:var(--m3-primary);
+    opacity:0;
+    transition:opacity var(--anim-fast);
+}
+
+.m3-btn:hover{
+    transform:scale(1.03);
+}
+
+.m3-btn:hover::after{
+    opacity:.12;
+}
+
+.m3-btn:active{
+    transform:scale(.97);
+}
+
+.widget-container{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.widget-img{
+    width:100%;
+    border-radius:16px;
+    display:block;
+    box-shadow:0 4px 16px var(--m3-shadow);
+    animation:fadeIn var(--anim-slow) both;
+}
+
+footer{
+    text-align:center;
+    margin-top:80px;
+    opacity:.5;
+    font-size:.8rem;
+    letter-spacing:1px;
+    animation:fadeIn var(--anim-slow) both;
+}
+</style>
 </head>
+
 <body>
-
 <div class="container">
-    <header>
-        <h1>Amonoman</h1>
-    </header>
 
-    <div class="card">
-        <h2>Connect</h2>
-        <div class="links-grid">
-            <a href="https://github.com/Amonoman" class="m3-btn" target="_blank">
-                <span class="material-symbols-rounded">code</span> GitHub
-            </a>
-            <a href="mailto:m28162214@gmail.com" class="m3-btn">
-                <span class="material-symbols-rounded">mail</span> E-Mail
-            </a>
-            <a href="https://youtube.com/@amonoman-jojo" class="m3-btn" target="_blank">
-                <span class="material-symbols-rounded">play_circle</span> YouTube
-            </a>
-            <a href="http://t.me/AmonomanX" class="m3-btn" target="_blank">
-                <span class="material-symbols-rounded">send</span> Telegram
-            </a>
-            <a href="https://discord.com/users/1061627516596535396" class="m3-btn" target="_blank">
-                <span class="material-symbols-rounded">forum</span> Discord
-            </a>
-        </div>
+<header>
+    <h1>Amonoman</h1>
+</header>
+
+<div class="card">
+    <h2>Connect</h2>
+    <div class="links-grid">
+        <a href="https://github.com/Amonoman" class="m3-btn" target="_blank">
+            <span class="material-symbols-rounded">code</span> GitHub
+        </a>
+        <a href="mailto:m28162214@gmail.com" class="m3-btn">
+            <span class="material-symbols-rounded">mail</span> E-Mail
+        </a>
+        <a href="https://youtube.com/@amonoman-jojo" class="m3-btn" target="_blank">
+            <span class="material-symbols-rounded">play_circle</span> YouTube
+        </a>
+        <a href="http://t.me/AmonomanX" class="m3-btn" target="_blank">
+            <span class="material-symbols-rounded">send</span> Telegram
+        </a>
+        <a href="https://discord.com/users/1061627516596535396" class="m3-btn" target="_blank">
+            <span class="material-symbols-rounded">forum</span> Discord
+        </a>
     </div>
-
-    <div class="card">
-        <h2>GitHub Activity</h2>
-        <div class="widget-container">
-            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/output/github-contribution-snake.svg" alt="GitHub Snake" class="widget-img">
-            <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/refs/heads/main/metrics.svg" alt="GitHub Metrics" class="widget-img">
-        </div>
-    </div>
-
-    <footer>
-        AMONOMAN // 2026
-    </footer>
 </div>
 
+<div class="card">
+    <h2>GitHub Activity</h2>
+    <div class="widget-container">
+        <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/output/github-contribution-snake.svg" class="widget-img" alt="">
+        <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/refs/heads/main/metrics.svg" class="widget-img" alt="">
+    </div>
+</div>
+
+<footer>
+    AMONOMAN // 2026
+</footer>
+
+</div>
 </body>
 </html>
