@@ -58,7 +58,6 @@ body{
     width:100%;
     max-width:820px;
     padding:64px 20px;
-    animation:scaleIn var(--anim-medium) both;
 }
 
 header{
@@ -67,13 +66,12 @@ header{
 }
 
 h1{
-    font-size:3rem; /* kleiner gemacht */
+    font-size:3rem;
     font-weight:900;
     margin:0;
     color:var(--m3-primary);
     letter-spacing:-2px;
     text-transform:uppercase;
-    animation:slideDown var(--anim-medium) both;
 }
 
 .card{
@@ -114,16 +112,24 @@ h2{
 }
 
 .widget-container{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:32px;
+}
+
+@media (min-width:700px){
+    .widget-container{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
 .widget-img{
     width:100%;
-    border-radius:16px;
+    border-radius:0;
     display:block;
-    box-shadow:0 4px 16px var(--m3-shadow);
+    background:#000;
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 6px 20px var(--m3-shadow);
 }
 
 footer{
@@ -166,13 +172,9 @@ footer{
 
 <div class="card">
     <h2>GitHub Activity</h2>
+
     <div class="widget-container">
 
-        <!-- Snake + Metrics -->
-        <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/output/github-contribution-snake.svg" class="widget-img" alt="">
-        <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/refs/heads/main/metrics.svg" class="widget-img" alt="">
-
-        <!-- Neue Stats -->
         <img 
             src="https://github-readme-stats.vercel.app/api?username=Amonoman&count_private=true&show_icons=true&line_height=20&title_color=0A5CFF&icon_color=0A5CFF&text_color=FFFFFF&bg_color=000000&hide_border=false"
             class="widget-img"
