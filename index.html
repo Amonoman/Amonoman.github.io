@@ -61,18 +61,13 @@ body{
     animation:scaleIn var(--anim-medium) both;
 }
 
-@keyframes scaleIn{
-    from{opacity:0;transform:scale(.96);}
-    to{opacity:1;transform:scale(1);}
-}
-
 header{
     text-align:center;
     margin-bottom:64px;
 }
 
 h1{
-    font-size:4rem;
+    font-size:3rem; /* kleiner gemacht */
     font-weight:900;
     margin:0;
     color:var(--m3-primary);
@@ -81,23 +76,12 @@ h1{
     animation:slideDown var(--anim-medium) both;
 }
 
-@keyframes slideDown{
-    from{opacity:0;transform:translateY(-20px);}
-    to{opacity:1;transform:translateY(0);}
-}
-
 .card{
     background:var(--m3-surface-container);
     border-radius:28px;
     padding:28px;
     margin-bottom:28px;
     box-shadow:0 4px 16px var(--m3-shadow);
-    animation:cardIn var(--anim-medium) both;
-}
-
-@keyframes cardIn{
-    from{opacity:0;transform:translateY(20px) scale(.98);}
-    to{opacity:1;transform:translateY(0) scale(1);}
 }
 
 h2{
@@ -127,28 +111,6 @@ h2{
     font-weight:600;
     position:relative;
     overflow:hidden;
-    transition:transform var(--anim-fast),background var(--anim-fast);
-}
-
-.m3-btn::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:var(--m3-primary);
-    opacity:0;
-    transition:opacity var(--anim-fast);
-}
-
-.m3-btn:hover{
-    transform:scale(1.03);
-}
-
-.m3-btn:hover::after{
-    opacity:.12;
-}
-
-.m3-btn:active{
-    transform:scale(.97);
 }
 
 .widget-container{
@@ -162,7 +124,6 @@ h2{
     border-radius:16px;
     display:block;
     box-shadow:0 4px 16px var(--m3-shadow);
-    animation:fadeIn var(--anim-slow) both;
 }
 
 footer{
@@ -171,7 +132,6 @@ footer{
     opacity:.5;
     font-size:.8rem;
     letter-spacing:1px;
-    animation:fadeIn var(--anim-slow) both;
 }
 </style>
 </head>
@@ -207,13 +167,35 @@ footer{
 <div class="card">
     <h2>GitHub Activity</h2>
     <div class="widget-container">
+
+        <!-- Snake + Metrics -->
         <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/output/github-contribution-snake.svg" class="widget-img" alt="">
         <img src="https://raw.githubusercontent.com/Amonoman/Amonoman/refs/heads/main/metrics.svg" class="widget-img" alt="">
+
+        <!-- Neue Stats -->
+        <img 
+            src="https://github-readme-stats.vercel.app/api?username=Amonoman&count_private=true&show_icons=true&line_height=20&title_color=0A5CFF&icon_color=0A5CFF&text_color=FFFFFF&bg_color=000000&hide_border=false"
+            class="widget-img"
+            alt="GitHub Stats"
+        />
+
+        <img 
+            src="https://ghstats.onuralpsezer.com?user=Amonoman&hide_border=false&background=000000&ring=0A5CFF&fire=FF7A32&currStreakNum=FF7A32&currStreakLabel=FFFFFF&sideNums=FFFFFF&sideLabels=FFFFFF&dates=FFFFFF"
+            class="widget-img"
+            alt="GitHub Streak"
+        />
+
+        <img 
+            src="https://github-readme-stats.vercel.app/api/top-langs/?username=Amonoman&layout=compact&hide_border=false&bg_color=000000&title_color=0A5CFF&text_color=FFFFFF"
+            class="widget-img"
+            alt="Top Languages"
+        />
+
     </div>
 </div>
 
 <footer>
-    AMONOMAN // 2026
+    AMONOMAN | 2026
 </footer>
 
 </div>
